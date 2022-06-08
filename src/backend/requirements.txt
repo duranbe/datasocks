@@ -1,0 +1,5 @@
+django
+djangorestframework
+channels
+psycopg2
+redis

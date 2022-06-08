@@ -1,0 +1,44 @@
+version: "3.3"
+
+services:
+
+  docker_db:
+    image: postgres:12-alpine
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - "POSTGRES_DB=${DB_NAME}"
+      - "POSTGRES_USER=${DB_USER}"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+
+    ports:
+      - 5432:5432
+
+  django:
+    restart: always
+    build: ./src/backend/.
+    command: bash -c "python ./manage.py migrate &&
+      python ./manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/backend/
+    environment:
+      - "SECRET_KEY=${SECRET_KEY}" 
+      - "POSTGRES_DB=${DB_NAME}"
+      - "POSTGRES_USER=${DB_USER}"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+    depends_on:
+      - docker_db
+    links:
+      - docker_db:docker_db
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./src/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./src/nginx/logs:/var/log/nginx 
+      - ./src/frontend:/usr/share/nginx/html 
+    ports:
+      - "80:80"
+    
