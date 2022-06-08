@@ -22,7 +22,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend:/backend/
+      - ./src/backend:/backend/
     environment:
       - "SECRET_KEY=${SECRET_KEY}" 
       - "POSTGRES_DB=${DB_NAME}"
