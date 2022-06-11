@@ -5,6 +5,6 @@ from rest_framework import routers
 
 app_name = "datasocks"
 
-router = routers.DefaultRouter(trailing_slash=False)
-router.register("api/1/dashboards/", DashboardViewSet, basename="datasocks") 
+router = routers.SimpleRouter()
+router.register(r"dashboards", DashboardViewSet,basename="dashboards") 
 urlpatterns = router.urls

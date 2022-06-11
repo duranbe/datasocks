@@ -3,3 +3,4 @@ djangorestframework
 channels
 psycopg2
 redis
+pyyaml
