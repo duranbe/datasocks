@@ -9,7 +9,7 @@ app_name = "users"
 
 from .views import AuthViewSet, UserViewSet
 
-router = routers.DefaultRouter(trailing_slash=False)
+router = routers.DefaultRouter(trailing_slash=True)
 router.register("auth", AuthViewSet, basename="auth")  # Auth urls (login/logout)
 router.register("user", UserViewSet, basename="user")  # User CRUD urls
 urlpatterns = router.urls
