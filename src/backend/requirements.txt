@@ -4,3 +4,4 @@ channels
 psycopg2
 redis
 pyyaml
+django-cors-headers
