@@ -1,5 +1,6 @@
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import viewsets, status
+from rest_framework import viewsets
+from rest_framework import status
 from datasocks.models import Dashboard
 from .serializers import DashboardSerializer
 from rest_framework.response import Response
@@ -15,7 +16,11 @@ class DashboardViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        pass
+        serializer = DashboardSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
         queryset = Dashboard.objects.filter(dshbd_users=self.request.user.id,pk=pk).first()
@@ -25,10 +30,9 @@ class DashboardViewSet(viewsets.ViewSet):
     def update(self, request, pk=None):
         pass
 
-    def partial_update(self, request, pk=None):
-        pass
-
     def destroy(self, request, pk=None):
-        pass
+        queryset = Dashboard.objects.filter(dshbd_users=self.request.user.id,pk=pk).first()
+        queryset.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
