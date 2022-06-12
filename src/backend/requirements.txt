@@ -1,6 +1,7 @@
 django
 djangorestframework
 channels
+channels-redis
 psycopg2
 redis
 pyyaml
