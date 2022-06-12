@@ -10,7 +10,21 @@
     is_staff: 0
     is_active: 1
     date_joined: 2021-08-24T18:04:37Z
-    email: test@test.com
+    email: user1@test.com
+
+- model: users.customuser
+  pk: 2
+  fields:
+    id: 2
+    password: 43sad2535hgdfdsfsgsd3tg
+    last_login: 2022-01-25T03:24:57Z
+    is_superuser: 0
+    first_name: "test2"
+    last_name: "test2"
+    is_staff: 0
+    is_active: 1
+    date_joined: 2022-03-24T18:04:37Z
+    email: user2@test.com
 
 - model: datasocks.dashboard
   pk: 1
@@ -19,3 +33,11 @@
     dshbd_name: "test_1"
     dshbd_description: "sadsadasd"
     dshbd_users: [1]
+
+- model: datasocks.dashboard
+  pk: 2
+  fields:
+    id: 2
+    dshbd_name: "test_2"
+    dshbd_description: "sadsadasfssd"
+    dshbd_users: [2]
