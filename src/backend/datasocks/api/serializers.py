@@ -1,4 +1,4 @@
-from datasocks.models import Dashboard,Button,Card
+from datasocks.models import Dashboard,Button,Card,DataRecord
 from rest_framework import serializers
 
 class ButtonSerializer(serializers.ModelSerializer):
@@ -20,3 +20,10 @@ class DashboardSerializer(serializers.ModelSerializer):
         model = Dashboard
         fields = ["id","dshbd_name","dshbd_description","dshbd_users","button","card"]
 
+
+
+class DataRecordSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = DataRecord
+        fields = "__all__"

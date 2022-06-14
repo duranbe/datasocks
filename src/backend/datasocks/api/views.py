@@ -1,9 +1,12 @@
 from rest_framework.permissions import IsAuthenticated
+from datasocks.permissions import GrantedUsers
 from rest_framework import viewsets
+from rest_framework import generics
 from rest_framework import status
-from datasocks.models import Dashboard, Button, Card
-from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer
+from datasocks.models import Dashboard, Button, Card, DataRecord
+from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, DataRecordSerializer
 from rest_framework.response import Response
+from itertools import chain
 
 class DashboardViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -65,36 +68,50 @@ class ButtonViewSet(viewsets.ViewSet):
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class CardViewSet(viewsets.ViewSet):
+class CardViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = CardSerializer
-    queryset= Card.objects.all()
     
-    def list(self, request):
-        print(self.request)
-        print(self.request.user.id)
-        print(self.request.query_params)    
+    def get_queryset(self):
 
+        user = self.request.user
+        dashboard_qs = Dashboard.objects.filter(dshbd_users=user)
+
+        # TODO : Refactor this
+        if self.kwargs.get('pk'):
+
+            card =  Card.objects.filter(pk=self.kwargs['pk']).first()
+            
+            dashboard = Dashboard.objects.filter(id=card.linked_dshbd_id).first()
+
+            if user in dashboard.dshbd_users.all():
+                return Card.objects.filter(pk=self.kwargs['pk'])
+            
+            return Card.objects.none()
         
-        serializer = CardSerializer(self.queryset, many=True)
+        cards_qs_list = [Card.objects.filter(linked_dshbd=dashboard) for dashboard in dashboard_qs]
+        
+        return chain(*cards_qs_list)
+
+
+class DataRecordsAPI(generics.ListCreateAPIView):
+    queryset = DataRecord.objects.none()
+    serializer_class = DataRecordSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        # Note the use of `get_queryset()` instead of `self.queryset`
+        dashboard_id = request.query_params["dashboard"]
+        metric_name = request.query_params["metric"]
+        last = bool(request.query_params["last"])
+
+        if last:
+            queryset = DataRecord.objects.filter(linked_dshbd_id=dashboard_id,metric_name=metric_name).order_by('-metric_date')[0]
+            serializer = DataRecordSerializer(queryset, many=False)
+
+            
+        else:
+            queryset = DataRecord.objects.filter(metric_name=metric_name,linked_dshbd_id=dashboard_id)
+        
+            serializer = DataRecordSerializer(queryset, many=True)
         return Response(serializer.data)
-
-    def create(self, request):
-        serializer = CardSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def retrieve(self, request, pk=None):
-        #queryset = Card.objects.filter(linked_dshb=self.request.user.id,pk=pk).first()
-        serializer = CardSerializer(self.queryset)
-        return Response(serializer.data)
-
-    def update(self, request, pk=None):
-        pass
-
-    def destroy(self, request, pk=None):
-        queryset = Card.objects.filter(linked_dshb=self.request.user.id,pk=pk).first()
-        queryset.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)

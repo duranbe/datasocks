@@ -36,6 +36,9 @@ class Button(models.Model):
 	def __str__(self):
 		return self.btn_title
 
+	
+		
+
 class Card(models.Model):
 	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="card")
 	card_name = models.CharField(max_length=50,verbose_name='Card Name')
@@ -48,6 +51,17 @@ class Card(models.Model):
 	def __str__(self):
 		return self.card_name
  
+	def has_user_rights(self,user):
+		dashboard = Dashboard.objects.filter(pk=self.linked_dshbd).first()
+
+		return(user in dashboard.dshbd_users.all())
+
+
+	@property 
+	def user_permissions(self):
+		dashboard = Dashboard.objects.filter(pk=self.linked_dshbd).first()
+		return dashboard.dshbd_users.all()
+
 
 class DataRecord(models.Model):
 	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="datarecord")
