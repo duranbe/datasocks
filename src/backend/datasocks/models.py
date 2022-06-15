@@ -71,3 +71,26 @@ class DataRecord(models.Model):
 	saved_datetime = models.DateTimeField(auto_now_add=True)
 	usersource = models.ForeignKey(User,on_delete=models.PROTECT,related_name="datarecord")
 
+
+class Graph(models.Model):
+	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="graph")
+	first_data_serie = models.CharField(max_length=50,verbose_name='first_data_series',null=False)
+	second_data_serie = models.CharField(max_length=50,verbose_name='second_data_serie',null=True,blank=True)
+	graph_color=models.CharField(max_length=7,verbose_name='line_color',default="#f0a860")
+	graph_name = models.CharField(max_length=50,verbose_name='Graph Name')
+	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+	
+	choices = [
+	('LN','Line Plot'),
+	('AR','Area Chart'),
+	('BR','Bar Plot'),
+	('RD','Radar Plot'),
+	('PI','Pie Plot'),
+	('BL','Bubble Plot'),
+	('ST','Scatter Plot')
+	]
+
+	graph_type=models.CharField(max_length=2,choices=choices,default=None)
+
+	def __str__(self):
+		return(self.graph_name)

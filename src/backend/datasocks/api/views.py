@@ -1,10 +1,9 @@
 from rest_framework.permissions import IsAuthenticated
-from datasocks.permissions import GrantedUsers
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
-from datasocks.models import Dashboard, Button, Card, DataRecord
-from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, DataRecordSerializer
+from datasocks.models import Dashboard, Button, Card, DataRecord, Graph
+from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, DataRecordSerializer, GraphSerializer
 from rest_framework.response import Response
 from itertools import chain
 
@@ -115,3 +114,11 @@ class DataRecordsAPI(generics.ListCreateAPIView):
         
             serializer = DataRecordSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class GraphViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = GraphSerializer
+    
+    def get_queryset(self):
+        return Graph.objects.all()
