@@ -2,6 +2,7 @@ from django.test import Client
 from django.test import TestCase
 
 HTTP_STATUS_CODE_FORBIDDEN = 403
+HTTP_STATUS_CODE_UNAUTHORIZED = 401
 
 # Create your tests here.
 class DashboardTest(TestCase):
@@ -10,4 +11,4 @@ class DashboardTest(TestCase):
     def test_get_dashboard_api(self):
         client = Client()
         response = client.get('/api/1/dashboards/1/')
-        self.assertEqual(response.status_code,HTTP_STATUS_CODE_FORBIDDEN)
+        self.assertEqual(response.status_code,HTTP_STATUS_CODE_UNAUTHORIZED)
