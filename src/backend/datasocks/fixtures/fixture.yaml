@@ -12,10 +12,12 @@
     date_joined: 2021-08-24T18:04:37Z
     email: user1@test.com
 
-- model: authoken_token.token
-  key: 325usdhhkhfskjhbfjkb2fi94f8whf2
-  created: 2022-02-21 05:41:43.01Z	
-  user_id: 1
+- model: authtoken.token
+  pk: 1
+  fields:
+    key: 325usdhhkhfskjhbfjkb2fi94f8whf2
+    created: 2022-02-21 05:41:43.01Z	
+    user_id: 1
 
 - model: users.customuser
   pk: 2
