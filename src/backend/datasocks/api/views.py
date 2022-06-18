@@ -102,15 +102,15 @@ class DataRecordsAPI(generics.ListCreateAPIView):
         # Note the use of `get_queryset()` instead of `self.queryset`
         dashboard_id = request.query_params["dashboard"]
         metric_name = request.query_params["metric"]
-        last = bool(request.query_params["last"])
+        last = request.query_params["last"]
 
-        if last:
+        if last=="True":
             queryset = DataRecord.objects.filter(linked_dshbd_id=dashboard_id,metric_name=metric_name).order_by('-metric_date')[0]
             serializer = DataRecordSerializer(queryset, many=False)
 
             
         else:
-            queryset = DataRecord.objects.filter(metric_name=metric_name,linked_dshbd_id=dashboard_id)
+            queryset = DataRecord.objects.filter(metric_name=metric_name,linked_dshbd_id=dashboard_id).order_by("metric_date")
         
             serializer = DataRecordSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -122,3 +122,15 @@ class GraphViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         return Graph.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        data = serializer.validated_data
+        print(data)
+        data['created_by'] = request.user
+
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
