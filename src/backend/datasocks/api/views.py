@@ -112,7 +112,7 @@ class CardViewSet(viewsets.ViewSet):
     def update(self, request, pk=None):
         #TODO
         pass
-    
+
     def destroy(self, request, pk=None):
         queryset = Button.objects.filter(linked_dshb=self.request.user.id,pk=pk).first()
         queryset.delete()
@@ -125,7 +125,6 @@ class DataRecordsAPI(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        # Note the use of `get_queryset()` instead of `self.queryset`
         dashboard_id = request.query_params["dashboard"]
         metric_name = request.query_params["metric"]
         last = request.query_params["last"]

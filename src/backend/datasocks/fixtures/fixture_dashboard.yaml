@@ -32,3 +32,12 @@
     card_description: "Test Card 2 Desc"
     card_date: 2022-06-12T20:43:18.881512Z
     linked_dshbd_id: 2
+
+- model: datasocks.card
+  pk: 3
+  fields:
+    id: 3
+    card_name: "Test Card 3"
+    card_description: "Test Card 3 Desc"
+    card_date: 2022-06-12T20:43:18.881512Z
+    linked_dshbd_id: 1

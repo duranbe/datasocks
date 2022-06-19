@@ -4,11 +4,15 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from rest_framework import status
 from unittest import skip
+import json
 
 # See https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for correct status code
 
 
 class NoAuthTest(TestCase):
+    """"
+    Test suite to ensure everything is Auth-protected
+    """
     fixtures = ["fixture_users.yaml","fixture_dashboard.yaml"]
 
     def test_get_dashboard_api(self):
@@ -63,4 +67,6 @@ class User1Test(TestCase):
     def test_get_card_list(self):
         response = self.client.get('/api/1/cards/')
         self.assertEqual(response.status_code,status.HTTP_200_OK)
+        with open("datasocks/fixtures/cards_list_1.json") as json_fixture:
+            self.assertEquals(json.load(json_fixture),json.loads(response.content))
         
