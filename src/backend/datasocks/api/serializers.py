@@ -15,7 +15,7 @@ class CardSerializer(serializers.ModelSerializer):
 class GraphSerializer(serializers.ModelSerializer):
     class Meta:
         model = Graph
-        fields = ["id","linked_dshbd","first_data_serie","second_data_serie","graph_color","graph_name","graph_type"]
+        fields = ["id","linked_dshbd","first_data_serie","graph_color","graph_name","graph_type"]
 
 
 class DashboardSerializer(serializers.ModelSerializer):
