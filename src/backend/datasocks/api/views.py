@@ -25,11 +25,16 @@ class DashboardViewSet(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
-        queryset = Dashboard.objects.filter(dshbd_users=self.request.user.id,pk=pk).first()
-        serializer = DashboardSerializer(queryset)
-        return Response(serializer.data)
+        queryset = Dashboard.objects.filter(dshbd_users=self.request.user.id,pk=pk)
+
+        if queryset.exists():
+            serializer = DashboardSerializer(queryset.first())
+            return Response(serializer.data)
+
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
     def update(self, request, pk=None):
+        #TODO
         pass
 
     def destroy(self, request, pk=None):
@@ -55,13 +60,13 @@ class ButtonViewSet(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
-        #queryset = Button.objects.filter(linked_dshb=self.request.user.id,pk=pk).first()
+        #TODO : FIX Retrieve
         serializer = ButtonSerializer(self.queryset)
         return Response(serializer.data)
 
     def update(self, request, pk=None):
+        #TODO
         pass
-
     def destroy(self, request, pk=None):
         queryset = Button.objects.filter(linked_dshb=self.request.user.id,pk=pk).first()
         queryset.delete()

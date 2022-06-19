@@ -2,11 +2,8 @@ from django.test import Client
 from django.test import TestCase
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
+from rest_framework import status
 
-HTTP_STATUS_CODE_FORBIDDEN = 403
-HTTP_STATUS_CODE_UNAUTHORIZED = 401
-
-HTTPS_STATUS_CODE_SUCCESS = 200
 
 # Create your tests here.
 class NoAuthTest(TestCase):
@@ -15,27 +12,27 @@ class NoAuthTest(TestCase):
     def test_get_dashboard_api(self):
         client = Client()
         response = client.get('/api/1/dashboards/1/')
-        self.assertEqual(response.status_code,HTTP_STATUS_CODE_UNAUTHORIZED)
+        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
     def test_get_cards_api(self):
         client = Client()
         response = client.get('/api/1/cards/1/')
-        self.assertEqual(response.status_code,HTTP_STATUS_CODE_UNAUTHORIZED)
+        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
     def test_get_buttons_api(self):
         client = Client()
         response = client.get('/api/1/buttons/1/')
-        self.assertEqual(response.status_code,HTTP_STATUS_CODE_UNAUTHORIZED)
+        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
     def test_get_graphs_api(self):
         client = Client()
         response = client.get('/api/1/graphs/1/')
-        self.assertEqual(response.status_code,HTTP_STATUS_CODE_UNAUTHORIZED)
+        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
     def test_get_data_api(self):
         client = Client()
         response = client.get('/api/1/data/')
-        self.assertEqual(response.status_code,HTTP_STATUS_CODE_UNAUTHORIZED)
+        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
 class User1Test(TestCase):
 
@@ -48,4 +45,8 @@ class User1Test(TestCase):
 
     def test_get_dashboard_1(self):
         response = self.client.get('/api/1/dashboards/1/')
-        self.assertEqual(response.status_code,HTTPS_STATUS_CODE_SUCCESS)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+
+    def test_get_dashboard_2(self):
+        response = self.client.get('/api/1/dashboards/2/')
+        self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
