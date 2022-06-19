@@ -7,6 +7,8 @@ from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, 
 from rest_framework.response import Response
 from itertools import chain
 
+# See https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for correct status code
+
 class DashboardViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = DashboardSerializer

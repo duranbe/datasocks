@@ -4,10 +4,10 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from rest_framework import status
 
+# See https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for correct status code
 
-# Create your tests here.
 class NoAuthTest(TestCase):
-    fixtures = ["fixture.yaml"]
+    fixtures = ["fixture_users.yaml","fixture_dashboard.yaml"]
 
     def test_get_dashboard_api(self):
         client = Client()
@@ -35,13 +35,12 @@ class NoAuthTest(TestCase):
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
 class User1Test(TestCase):
-
-    fixtures = ["fixture.yaml"]
+    fixtures = ["fixture_users.yaml","fixture_dashboard.yaml"]
 
     def setUp(self):
-        token = Token.objects.get(user__email='user1@test.com')
+        self.token = Token.objects.get(user__email='user1@test.com')
         self.client = APIClient()
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
 
     def test_get_dashboard_1(self):
         response = self.client.get('/api/1/dashboards/1/')
@@ -50,3 +49,6 @@ class User1Test(TestCase):
     def test_get_dashboard_2(self):
         response = self.client.get('/api/1/dashboards/2/')
         self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
+    
+    def test_get_card(self):
+        pass

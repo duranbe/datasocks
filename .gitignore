@@ -133,3 +133,6 @@ dmypy.json
 #db data
 
 /data/
+
+#TODO list
+TODO.txt
