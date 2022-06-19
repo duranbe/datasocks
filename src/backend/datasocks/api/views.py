@@ -74,30 +74,49 @@ class ButtonViewSet(viewsets.ViewSet):
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class CardViewSet(viewsets.ModelViewSet):
+class CardViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = CardSerializer
-    
-    def get_queryset(self):
+    queryset = Card.objects.all()
+
+    def list(self,request):
 
         user = self.request.user
         dashboard_qs = Dashboard.objects.filter(dshbd_users=user)
 
-        # TODO : Refactor this
-        if self.kwargs.get('pk'):
-
-            card =  Card.objects.filter(pk=self.kwargs['pk']).first()
-            
-            dashboard = Dashboard.objects.filter(id=card.linked_dshbd_id).first()
-
-            if user in dashboard.dshbd_users.all():
-                return Card.objects.filter(pk=self.kwargs['pk'])
-            
-            return Card.objects.none()
-        
         cards_qs_list = [Card.objects.filter(linked_dshbd=dashboard) for dashboard in dashboard_qs]
+        serializer = CardSerializer(chain(*cards_qs_list),many=True)
         
-        return chain(*cards_qs_list)
+        return Response(serializer.data)
+
+    
+    def retrieve(self, request, pk=None):
+       
+        user = self.request.user
+        card = Card.objects.filter(pk=pk).first()
+        dashboard = Dashboard.objects.filter(id=card.linked_dshbd_id).first()
+        
+        if user in dashboard.dshbd_users.all():
+            serializer = CardSerializer(card)
+            return Response(serializer.data)
+
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def create(self, request):
+        serializer = CardSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, pk=None):
+        #TODO
+        pass
+    
+    def destroy(self, request, pk=None):
+        queryset = Button.objects.filter(linked_dshb=self.request.user.id,pk=pk).first()
+        queryset.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class DataRecordsAPI(generics.ListCreateAPIView):

@@ -14,3 +14,21 @@
     dshbd_name: "test_2"
     dshbd_description: "sadsadasfssd"
     dshbd_users: [2]
+
+- model: datasocks.card
+  pk: 1
+  fields:
+    id: 1
+    card_name: "Test Card 1"
+    card_description: "Test Card 1 Desc"
+    card_date: 2022-06-12T20:43:18.881512Z
+    linked_dshbd_id: 1
+  
+- model: datasocks.card
+  pk: 2
+  fields:
+    id: 2
+    card_name: "Test Card 2"
+    card_description: "Test Card 2 Desc"
+    card_date: 2022-06-12T20:43:18.881512Z
+    linked_dshbd_id: 2

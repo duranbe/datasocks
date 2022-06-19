@@ -3,8 +3,10 @@ from django.test import TestCase
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from rest_framework import status
+from unittest import skip
 
 # See https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for correct status code
+
 
 class NoAuthTest(TestCase):
     fixtures = ["fixture_users.yaml","fixture_dashboard.yaml"]
@@ -50,5 +52,15 @@ class User1Test(TestCase):
         response = self.client.get('/api/1/dashboards/2/')
         self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
     
-    def test_get_card(self):
-        pass
+    def test_get_card_1(self):
+        response = self.client.get('/api/1/cards/1/')
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+
+    def test_get_card_2(self):
+        response = self.client.get('/api/1/cards/2/')
+        self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
+
+    def test_get_card_list(self):
+        response = self.client.get('/api/1/cards/')
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        
