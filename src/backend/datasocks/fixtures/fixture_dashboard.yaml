@@ -41,3 +41,27 @@
     card_description: "Test Card 3 Desc"
     card_date: 2022-06-12T20:43:18.881512Z
     linked_dshbd_id: 1
+
+- model: datasocks.graph
+  pk: 1
+  fields:
+    id: 1
+    first_data_serie: "test"
+    second_data_serie: NULL
+    graph_color: "#f17188"
+    graph_name: "Random Graph"
+    graph_type: "LN"
+    linked_dshbd_id: 1
+    created_by: 1
+
+- model: datasocks.graph
+  pk: 2
+  fields:
+    id: 2
+    first_data_serie: "test"
+    second_data_serie: NULL
+    graph_color: "#f99188"
+    graph_name: "RTest2"
+    graph_type: "LN"
+    linked_dshbd_id: 2
+    created_by: 2

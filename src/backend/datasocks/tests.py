@@ -70,3 +70,4 @@ class User1Test(TestCase):
         with open("datasocks/fixtures/cards_list_1.json") as json_fixture:
             self.assertEquals(json.load(json_fixture),json.loads(response.content))
         
+    
