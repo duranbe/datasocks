@@ -6,3 +6,4 @@ psycopg2
 redis
 pyyaml
 django-cors-headers
+djangorestframework-api-key
