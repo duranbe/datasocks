@@ -5,6 +5,7 @@ from django.core import serializers
 from datetime import datetime
 from django.contrib.postgres.fields import JSONField
 from django.core.validators import RegexValidator
+from rest_framework_api_key.models import AbstractAPIKey
 
 User = settings.AUTH_USER_MODEL 
 
@@ -62,14 +63,30 @@ class Card(models.Model):
 		dashboard = Dashboard.objects.filter(pk=self.linked_dshbd).first()
 		return dashboard.dshbd_users.all()
 
+class Machine(models.Model):
+	machine_name = models.CharField(max_length=128,blank=False,null=False)
+	
 
+	def __str__(self):
+		return self.machine_name
+
+class MachineAccessAPIKey(AbstractAPIKey):
+    machine = models.ForeignKey(
+        Machine,
+        on_delete=models.CASCADE,
+        related_name="api_keys",
+    )
+
+    class Meta:
+        verbose_name ="Machine Access API Key"
+		
 class DataRecord(models.Model):
 	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="datarecord")
 	metric_name = models.CharField(max_length=100,verbose_name="Metric Name")
 	metric_value = models.FloatField()
 	metric_date = models.DateTimeField(auto_now_add=True,blank=False)
 	saved_datetime = models.DateTimeField(auto_now_add=True)
-	usersource = models.ForeignKey(User,on_delete=models.PROTECT,related_name="datarecord")
+	usersource = models.ForeignKey(Machine,on_delete=models.PROTECT,related_name="datarecord")
 
 
 class Graph(models.Model):
@@ -94,3 +111,4 @@ class Graph(models.Model):
 
 	def __str__(self):
 		return(self.graph_name)
+

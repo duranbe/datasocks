@@ -14,21 +14,26 @@ class DashboardConsumer(WebsocketConsumer):
     
     def connect(self):
         self.room_id = self.scope['url_route']['kwargs']['room_id']
-        print(self.room_id)
         self.room_group_name = f"ds_{self.room_id}"
         self.user = self.scope['user']
-        
-        if self.user.is_anonymous:
-            return None
-                # Join room group
+        self.machine = self.scope['machine']
 
-        if Dashboard.objects.filter(dshbd_users=self.user,id=self.room_id).first():
-        
-            async_to_sync(self.channel_layer.group_add)(
-                        self.room_group_name,
-                        self.channel_name
-                    )
+        print(self.user,self.machine)
+
+        if self.user:
+            if self.user.is_anonymous:
+                return None
                     
+            if Dashboard.objects.filter(dshbd_users=self.user,id=self.room_id).first():
+            
+                async_to_sync(self.channel_layer.group_add)(
+                            self.room_group_name,
+                            self.channel_name
+                        )
+                        
+                self.accept()
+
+        if self.machine:
             self.accept()
 
     def disconnect(self, close_code):
@@ -46,7 +51,7 @@ class DashboardConsumer(WebsocketConsumer):
                     metric_name=text_data_json["metric_name"],
                     metric_value=text_data_json["value"],
                     metric_date=text_data_json["date"],
-                    usersource=self.user)       
+                    usersource=self.machine)       
         new_data_record.save()
         print("eer",text_data_json)
         #Send message to the group         
@@ -61,6 +66,5 @@ class DashboardConsumer(WebsocketConsumer):
     
  
     def update(self,event):
-        
-    
+
         self.send(text_data=json.dumps(event))
