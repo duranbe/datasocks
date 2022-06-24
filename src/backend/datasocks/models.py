@@ -10,8 +10,8 @@ from rest_framework_api_key.models import AbstractAPIKey
 User = settings.AUTH_USER_MODEL 
 
 class Dashboard(models.Model):
-	dshbd_name = models.CharField(max_length=30,verbose_name='Dashboard Name')
-	dshbd_description = models.CharField(max_length=100,verbose_name='Dashboard Description')
+	dshbd_name = models.CharField(max_length=30,verbose_name='Dashboard Name',unique=True)
+	dshbd_description = models.CharField(max_length=100,verbose_name='Dashboard Description',unique=True)
 	dshbd_users = models.ManyToManyField(User,verbose_name='Dashboard Allowed Users')
 	
 	class Meta:
@@ -27,9 +27,9 @@ class Dashboard(models.Model):
 
 class Button(models.Model):
 	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="button")
-	btn_action = models.CharField(max_length=50,verbose_name='Button Action')
-	btn_title = models.CharField(max_length=20,verbose_name='Button Title')
-	btn_description = models.CharField(max_length=150,verbose_name='Button Description')
+	btn_action = models.CharField(max_length=50,verbose_name='Button Action',unique=True)
+	btn_title = models.CharField(max_length=20,verbose_name='Button Title',unique=True)
+	btn_description = models.CharField(max_length=150,verbose_name='Button Description',unique=True)
 
 	class Meta:
 		verbose_name = "Button"
@@ -42,8 +42,8 @@ class Button(models.Model):
 
 class Card(models.Model):
 	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="card")
-	card_name = models.CharField(max_length=50,verbose_name='Card Name')
-	card_description = models.CharField(max_length=150,verbose_name='Card Description')
+	card_name = models.CharField(max_length=50,verbose_name='Card Name',unique=True)
+	card_description = models.CharField(max_length=150,verbose_name='Card Description',unique=True)
 	card_date = models.DateTimeField(auto_now=True)
 	
 	class Meta():
@@ -64,7 +64,8 @@ class Card(models.Model):
 		return dashboard.dshbd_users.all()
 
 class Machine(models.Model):
-	machine_name = models.CharField(max_length=128,blank=False,null=False)
+	machine_name = models.CharField(max_length=128,blank=False,null=False,unique=True)
+	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="dashboard")
 	
 
 	def __str__(self):
@@ -94,7 +95,7 @@ class Graph(models.Model):
 	first_data_serie = models.CharField(max_length=50,verbose_name='first_data_series',null=False)
 	second_data_serie = models.CharField(max_length=50,verbose_name='second_data_serie',null=True,blank=True)
 	graph_color=models.CharField(max_length=7,verbose_name='line_color',default="#f0a860")
-	graph_name = models.CharField(max_length=50,verbose_name='Graph Name')
+	graph_name = models.CharField(max_length=50,verbose_name='Graph Name',unique=True)
 	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 	
 	choices = [

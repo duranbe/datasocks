@@ -1,4 +1,4 @@
-from datasocks.models import Dashboard,Button,Card,DataRecord,Graph
+from datasocks.models import Dashboard,Button,Card,DataRecord,Graph,Machine
 from rest_framework import serializers
 
 class ButtonSerializer(serializers.ModelSerializer):
@@ -17,23 +17,25 @@ class GraphSerializer(serializers.ModelSerializer):
         model = Graph
         fields = ["id","linked_dshbd","first_data_serie","graph_color","graph_name","graph_type"]
 
+class MachineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Machine
+        fields = ["machine_name","linked_dshbd"]
+
 
 class DashboardSerializer(serializers.ModelSerializer):
     button = ButtonSerializer(many=True,read_only=True)
     card = CardSerializer(many=True,read_only=True)
     graph = GraphSerializer(many=True,read_only=True)
+    machine = MachineSerializer(many=True,read_only=True)
     
     class Meta:
         model = Dashboard
-        fields = ["id","dshbd_name","dshbd_description","button","card","graph"]
-
-class CreateDashboardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Dashboard
-        fields = ["id","dshbd_name","dshbd_description"]
+        fields = ["id","dshbd_name","dshbd_description","button","card","graph","machine"]
 
 class DataRecordSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = DataRecord
         fields = "__all__"
+

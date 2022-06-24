@@ -2,8 +2,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
-from datasocks.models import Dashboard, Button, Card, DataRecord, Graph
-from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, DataRecordSerializer, GraphSerializer, CreateDashboardSerializer
+from datasocks.models import Dashboard, Button, Card, DataRecord, Graph, Machine,MachineAccessAPIKey
+from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, DataRecordSerializer, GraphSerializer,MachineSerializer
 from rest_framework.response import Response
 from itertools import chain
 
@@ -118,8 +118,7 @@ class CardViewSet(viewsets.ViewSet):
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-class DataRecordsAPI(generics.ListCreateAPIView):
+class DataRecordsAPI(generics.ListAPIView):
     queryset = DataRecord.objects.none()
     serializer_class = DataRecordSerializer
     permission_classes = [IsAuthenticated]
@@ -159,3 +158,25 @@ class GraphViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+class MachineViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = MachineSerializer
+    queryset = Machine.objects.all()
+
+    def create(self, request):
+        serializer = MachineSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        machine = serializer.save()
+        
+        api_key, key = MachineAccessAPIKey.objects.create_key(name=f"{serializer.data['machine_name']}_api_key",machine=machine)
+        return Response(key,status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        serializer = MachineSerializer(self.queryset, many=True)
+        return Response(serializer.data)
+    
+    def retrieve(self, request, pk=None):
+        #TODO : FIX Retrieve
+        serializer = MachineSerializer(self.queryset)
+        return Response(serializer.data)
