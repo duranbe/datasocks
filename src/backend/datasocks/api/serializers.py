@@ -25,9 +25,12 @@ class DashboardSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Dashboard
-        fields = ["id","dshbd_name","dshbd_description","dshbd_users","button","card","graph"]
+        fields = ["id","dshbd_name","dshbd_description","button","card","graph"]
 
-
+class CreateDashboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dashboard
+        fields = ["id","dshbd_name","dshbd_description"]
 
 class DataRecordSerializer(serializers.ModelSerializer):
     

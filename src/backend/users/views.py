@@ -14,7 +14,6 @@ User = get_user_model()
 
 class UserViewSet(viewsets.GenericViewSet):
     def create(self, request):
-        print(request.data)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = create_user_account(**serializer.validated_data)

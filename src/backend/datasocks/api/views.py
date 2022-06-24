@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
 from datasocks.models import Dashboard, Button, Card, DataRecord, Graph
-from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, DataRecordSerializer, GraphSerializer
+from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, DataRecordSerializer, GraphSerializer, CreateDashboardSerializer
 from rest_framework.response import Response
 from itertools import chain
 
@@ -22,8 +22,8 @@ class DashboardViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = DashboardSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-
+        serializer.save(dshbd_users=[self.request.user])
+    
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):

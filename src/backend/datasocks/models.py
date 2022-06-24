@@ -15,7 +15,7 @@ class Dashboard(models.Model):
 	dshbd_users = models.ManyToManyField(User,verbose_name='Dashboard Allowed Users')
 	
 	class Meta:
-		ordering = ['dshbd_name']
+		ordering = ['id']
 		verbose_name = "Dashboard"
 		
 	def get_user(self):
