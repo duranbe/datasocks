@@ -75,11 +75,11 @@ class MachineAccessAPIKey(AbstractAPIKey):
     machine = models.ForeignKey(
         Machine,
         on_delete=models.CASCADE,
-        related_name="api_keys",
+        related_name="api_key",
     )
 
     class Meta:
-        verbose_name ="Machine Access API Key"
+       verbose_name ="Machine Access API Key"
 		
 class DataRecord(models.Model):
 	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="datarecord")

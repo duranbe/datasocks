@@ -16,7 +16,7 @@ def get_user(token_key):
 @database_sync_to_async
 def get_machine(api_key):
     apikey =  MachineAccessAPIKey.objects.get_from_key(api_key)
-    machine = Machine.objects.get(api_keys=apikey)
+    machine = Machine.objects.get(api_key=apikey)
     return machine
 
 class WebSocketAuthMiddleware(BaseMiddleware):

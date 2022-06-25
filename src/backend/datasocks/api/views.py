@@ -6,6 +6,7 @@ from datasocks.models import Dashboard, Button, Card, DataRecord, Graph, Machine
 from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, DataRecordSerializer, GraphSerializer,MachineSerializer
 from rest_framework.response import Response
 from itertools import chain
+import json
 
 # See https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for correct status code
 
@@ -108,10 +109,6 @@ class CardViewSet(viewsets.ViewSet):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def update(self, request, pk=None):
-        #TODO
-        pass
 
     def destroy(self, request, pk=None):
         queryset = Button.objects.filter(linked_dshb=self.request.user.id,pk=pk).first()
