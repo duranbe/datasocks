@@ -7,22 +7,30 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('datasocks', '0014_auto_20220625_0043'),
+        ("datasocks", "0014_auto_20220625_0043"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='machineaccessapikey',
-            name='prefix',
+            model_name="machineaccessapikey",
+            name="prefix",
         ),
         migrations.AlterField(
-            model_name='machine',
-            name='linked_dshbd',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='machine', to='datasocks.dashboard'),
+            model_name="machine",
+            name="linked_dshbd",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="machine",
+                to="datasocks.dashboard",
+            ),
         ),
         migrations.AlterField(
-            model_name='machineaccessapikey',
-            name='machine',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='api_key', to='datasocks.machine'),
+            model_name="machineaccessapikey",
+            name="machine",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="api_key",
+                to="datasocks.machine",
+            ),
         ),
     ]

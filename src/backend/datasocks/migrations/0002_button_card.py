@@ -7,35 +7,83 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('datasocks', '0001_initial'),
+        ("datasocks", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Card',
+            name="Card",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('card_name', models.CharField(max_length=50, verbose_name='Card Name')),
-                ('card_value', models.CharField(default='No Data', max_length=10, verbose_name='Card Value')),
-                ('card_description', models.CharField(max_length=150, verbose_name='Card Description')),
-                ('card_date', models.DateTimeField(auto_now=True)),
-                ('linked_dshbd', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='datasocks.dashboard')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "card_name",
+                    models.CharField(max_length=50, verbose_name="Card Name"),
+                ),
+                (
+                    "card_value",
+                    models.CharField(
+                        default="No Data", max_length=10, verbose_name="Card Value"
+                    ),
+                ),
+                (
+                    "card_description",
+                    models.CharField(max_length=150, verbose_name="Card Description"),
+                ),
+                ("card_date", models.DateTimeField(auto_now=True)),
+                (
+                    "linked_dshbd",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="datasocks.dashboard",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Card',
+                "verbose_name": "Card",
             },
         ),
         migrations.CreateModel(
-            name='Button',
+            name="Button",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('btn_action', models.CharField(max_length=50, verbose_name='Button Action')),
-                ('btn_title', models.CharField(max_length=20, verbose_name='Button Title')),
-                ('btn_description', models.CharField(max_length=150, verbose_name='Button Description')),
-                ('linked_dshbd', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='datasocks.dashboard')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "btn_action",
+                    models.CharField(max_length=50, verbose_name="Button Action"),
+                ),
+                (
+                    "btn_title",
+                    models.CharField(max_length=20, verbose_name="Button Title"),
+                ),
+                (
+                    "btn_description",
+                    models.CharField(max_length=150, verbose_name="Button Description"),
+                ),
+                (
+                    "linked_dshbd",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="datasocks.dashboard",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Button',
+                "verbose_name": "Button",
             },
         ),
     ]

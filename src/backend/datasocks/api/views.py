@@ -2,21 +2,37 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
-from datasocks.models import Dashboard, Button, Card, DataRecord, Graph, Machine,MachineAccessAPIKey
-from .serializers import DashboardSerializer, ButtonSerializer, CardSerializer, DataRecordSerializer, GraphSerializer,MachineSerializer
+from datasocks.models import (
+    Dashboard,
+    Button,
+    Card,
+    DataRecord,
+    Graph,
+    Machine,
+    MachineAccessAPIKey,
+)
+from .serializers import (
+    DashboardSerializer,
+    ButtonSerializer,
+    CardSerializer,
+    DataRecordSerializer,
+    GraphSerializer,
+    MachineSerializer,
+)
 from rest_framework.response import Response
 from itertools import chain
 import json
 
 # See https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for correct status code
 
+
 class DashboardViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = DashboardSerializer
-    queryset= Dashboard.objects.all()
-    
+    queryset = Dashboard.objects.all()
+
     def list(self, request):
-        queryset=Dashboard.objects.filter(dshbd_users=self.request.user.id)
+        queryset = Dashboard.objects.filter(dshbd_users=self.request.user.id)
         serializer = DashboardSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -24,11 +40,11 @@ class DashboardViewSet(viewsets.ViewSet):
         serializer = DashboardSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(dshbd_users=[self.request.user])
-    
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
-        queryset = Dashboard.objects.filter(dshbd_users=self.request.user.id,pk=pk)
+        queryset = Dashboard.objects.filter(dshbd_users=self.request.user.id, pk=pk)
 
         if queryset.exists():
             serializer = DashboardSerializer(queryset.first())
@@ -37,11 +53,13 @@ class DashboardViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
     def update(self, request, pk=None):
-        #TODO
+        # TODO
         pass
 
     def destroy(self, request, pk=None):
-        queryset = Dashboard.objects.filter(dshbd_users=self.request.user.id,pk=pk).first()
+        queryset = Dashboard.objects.filter(
+            dshbd_users=self.request.user.id, pk=pk
+        ).first()
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -49,8 +67,8 @@ class DashboardViewSet(viewsets.ViewSet):
 class ButtonViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ButtonSerializer
-    queryset= Button.objects.all()
-    
+    queryset = Button.objects.all()
+
     def list(self, request):
         serializer = ButtonSerializer(self.queryset, many=True)
         return Response(serializer.data)
@@ -63,40 +81,45 @@ class ButtonViewSet(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
-        #TODO : FIX Retrieve
+        # TODO : FIX Retrieve
         serializer = ButtonSerializer(self.queryset)
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        #TODO
+        # TODO
         pass
+
     def destroy(self, request, pk=None):
-        queryset = Button.objects.filter(linked_dshb=self.request.user.id,pk=pk).first()
+        queryset = Button.objects.filter(
+            linked_dshb=self.request.user.id, pk=pk
+        ).first()
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class CardViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = CardSerializer
     queryset = Card.objects.all()
 
-    def list(self,request):
+    def list(self, request):
 
         user = self.request.user
         dashboard_qs = Dashboard.objects.filter(dshbd_users=user)
 
-        cards_qs_list = [Card.objects.filter(linked_dshbd=dashboard) for dashboard in dashboard_qs]
-        serializer = CardSerializer(chain(*cards_qs_list),many=True)
-        
+        cards_qs_list = [
+            Card.objects.filter(linked_dshbd=dashboard) for dashboard in dashboard_qs
+        ]
+        serializer = CardSerializer(chain(*cards_qs_list), many=True)
+
         return Response(serializer.data)
 
-    
     def retrieve(self, request, pk=None):
-       
+
         user = self.request.user
         card = Card.objects.filter(pk=pk).first()
         dashboard = Dashboard.objects.filter(id=card.linked_dshbd_id).first()
-        
+
         if user in dashboard.dshbd_users.all():
             serializer = CardSerializer(card)
             return Response(serializer.data)
@@ -111,9 +134,12 @@ class CardViewSet(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def destroy(self, request, pk=None):
-        queryset = Button.objects.filter(linked_dshb=self.request.user.id,pk=pk).first()
+        queryset = Button.objects.filter(
+            linked_dshb=self.request.user.id, pk=pk
+        ).first()
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class DataRecordsAPI(generics.ListAPIView):
     queryset = DataRecord.objects.none()
@@ -125,14 +151,17 @@ class DataRecordsAPI(generics.ListAPIView):
         metric_name = request.query_params["metric"]
         last = request.query_params["last"]
 
-        if last=="True":
-            queryset = DataRecord.objects.filter(linked_dshbd_id=dashboard_id,metric_name=metric_name).order_by('-metric_date')[0]
+        if last == "True":
+            queryset = DataRecord.objects.filter(
+                linked_dshbd_id=dashboard_id, metric_name=metric_name
+            ).order_by("-metric_date")[0]
             serializer = DataRecordSerializer(queryset, many=False)
 
-            
         else:
-            queryset = DataRecord.objects.filter(metric_name=metric_name,linked_dshbd_id=dashboard_id).order_by("metric_date")
-        
+            queryset = DataRecord.objects.filter(
+                metric_name=metric_name, linked_dshbd_id=dashboard_id
+            ).order_by("metric_date")
+
             serializer = DataRecordSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -140,7 +169,7 @@ class DataRecordsAPI(generics.ListAPIView):
 class GraphViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = GraphSerializer
-    
+
     def get_queryset(self):
         return Graph.objects.all()
 
@@ -150,11 +179,14 @@ class GraphViewSet(viewsets.ModelViewSet):
 
         data = serializer.validated_data
         print(data)
-        data['created_by'] = request.user
+        data["created_by"] = request.user
 
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
 
 class MachineViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -165,6 +197,8 @@ class MachineViewSet(viewsets.ViewSet):
         serializer = MachineSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         machine = serializer.save()
-        
-        api_key, key = MachineAccessAPIKey.objects.create_key(name=f"{serializer.data['machine_name']}_api_key",machine=machine)
-        return Response(key,status=status.HTTP_201_CREATED)
+
+        api_key, key = MachineAccessAPIKey.objects.create_key(
+            name=f"{serializer.data['machine_name']}_api_key", machine=machine
+        )
+        return Response(key, status=status.HTTP_201_CREATED)

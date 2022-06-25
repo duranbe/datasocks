@@ -7,18 +7,23 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('datasocks', '0012_alter_datarecord_usersource'),
+        ("datasocks", "0012_alter_datarecord_usersource"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='dashboard',
-            options={'ordering': ['id'], 'verbose_name': 'Dashboard'},
+            name="dashboard",
+            options={"ordering": ["id"], "verbose_name": "Dashboard"},
         ),
         migrations.AddField(
-            model_name='machine',
-            name='linked_dshbd',
-            field=models.ForeignKey(default=13, on_delete=django.db.models.deletion.CASCADE, related_name='dashboard', to='datasocks.dashboard'),
+            model_name="machine",
+            name="linked_dshbd",
+            field=models.ForeignKey(
+                default=13,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="dashboard",
+                to="datasocks.dashboard",
+            ),
             preserve_default=False,
         ),
     ]

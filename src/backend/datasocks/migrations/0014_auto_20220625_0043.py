@@ -6,53 +6,69 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('datasocks', '0013_auto_20220624_2350'),
+        ("datasocks", "0013_auto_20220624_2350"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='button',
-            name='btn_action',
-            field=models.CharField(max_length=50, unique=True, verbose_name='Button Action'),
+            model_name="button",
+            name="btn_action",
+            field=models.CharField(
+                max_length=50, unique=True, verbose_name="Button Action"
+            ),
         ),
         migrations.AlterField(
-            model_name='button',
-            name='btn_description',
-            field=models.CharField(max_length=150, unique=True, verbose_name='Button Description'),
+            model_name="button",
+            name="btn_description",
+            field=models.CharField(
+                max_length=150, unique=True, verbose_name="Button Description"
+            ),
         ),
         migrations.AlterField(
-            model_name='button',
-            name='btn_title',
-            field=models.CharField(max_length=20, unique=True, verbose_name='Button Title'),
+            model_name="button",
+            name="btn_title",
+            field=models.CharField(
+                max_length=20, unique=True, verbose_name="Button Title"
+            ),
         ),
         migrations.AlterField(
-            model_name='card',
-            name='card_description',
-            field=models.CharField(max_length=150, unique=True, verbose_name='Card Description'),
+            model_name="card",
+            name="card_description",
+            field=models.CharField(
+                max_length=150, unique=True, verbose_name="Card Description"
+            ),
         ),
         migrations.AlterField(
-            model_name='card',
-            name='card_name',
-            field=models.CharField(max_length=50, unique=True, verbose_name='Card Name'),
+            model_name="card",
+            name="card_name",
+            field=models.CharField(
+                max_length=50, unique=True, verbose_name="Card Name"
+            ),
         ),
         migrations.AlterField(
-            model_name='dashboard',
-            name='dshbd_description',
-            field=models.CharField(max_length=100, unique=True, verbose_name='Dashboard Description'),
+            model_name="dashboard",
+            name="dshbd_description",
+            field=models.CharField(
+                max_length=100, unique=True, verbose_name="Dashboard Description"
+            ),
         ),
         migrations.AlterField(
-            model_name='dashboard',
-            name='dshbd_name',
-            field=models.CharField(max_length=30, unique=True, verbose_name='Dashboard Name'),
+            model_name="dashboard",
+            name="dshbd_name",
+            field=models.CharField(
+                max_length=30, unique=True, verbose_name="Dashboard Name"
+            ),
         ),
         migrations.AlterField(
-            model_name='graph',
-            name='graph_name',
-            field=models.CharField(max_length=50, unique=True, verbose_name='Graph Name'),
+            model_name="graph",
+            name="graph_name",
+            field=models.CharField(
+                max_length=50, unique=True, verbose_name="Graph Name"
+            ),
         ),
         migrations.AlterField(
-            model_name='machine',
-            name='machine_name',
+            model_name="machine",
+            name="machine_name",
             field=models.CharField(max_length=128, unique=True),
         ),
     ]

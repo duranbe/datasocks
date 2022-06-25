@@ -7,35 +7,39 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('datasocks', '0005_remove_card_card_value'),
+        ("datasocks", "0005_remove_card_card_value"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='datarecord',
-            name='data_json',
+            model_name="datarecord",
+            name="data_json",
         ),
         migrations.AddField(
-            model_name='datarecord',
-            name='metric_date',
-            field=models.DateTimeField(auto_now_add=True, default=datetime.date(2022, 6, 12)),
+            model_name="datarecord",
+            name="metric_date",
+            field=models.DateTimeField(
+                auto_now_add=True, default=datetime.date(2022, 6, 12)
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='datarecord',
-            name='metric_name',
-            field=models.CharField(default='test', max_length=100, verbose_name='Metric Name'),
+            model_name="datarecord",
+            name="metric_name",
+            field=models.CharField(
+                default="test", max_length=100, verbose_name="Metric Name"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='datarecord',
-            name='metric_value',
+            model_name="datarecord",
+            name="metric_value",
             field=models.FloatField(default=5),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='datarecord',
-            name='saved_datetime',
+            model_name="datarecord",
+            name="saved_datetime",
             field=models.DateTimeField(auto_now_add=True),
         ),
     ]

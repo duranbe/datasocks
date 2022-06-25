@@ -10,28 +10,58 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('datasocks', '0002_button_card'),
+        ("datasocks", "0002_button_card"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='button',
-            name='linked_dshbd',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='button', to='datasocks.dashboard'),
+            model_name="button",
+            name="linked_dshbd",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="button",
+                to="datasocks.dashboard",
+            ),
         ),
         migrations.AlterField(
-            model_name='card',
-            name='linked_dshbd',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='card', to='datasocks.dashboard'),
+            model_name="card",
+            name="linked_dshbd",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="card",
+                to="datasocks.dashboard",
+            ),
         ),
         migrations.CreateModel(
-            name='DataRecord',
+            name="DataRecord",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('data_json', django.contrib.postgres.fields.jsonb.JSONField()),
-                ('saved_datetime', models.DateTimeField(auto_now=True)),
-                ('linked_dshbd', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='datarecord', to='datasocks.dashboard')),
-                ('usersource', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='datarecord', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("data_json", django.contrib.postgres.fields.jsonb.JSONField()),
+                ("saved_datetime", models.DateTimeField(auto_now=True)),
+                (
+                    "linked_dshbd",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="datarecord",
+                        to="datasocks.dashboard",
+                    ),
+                ),
+                (
+                    "usersource",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="datarecord",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

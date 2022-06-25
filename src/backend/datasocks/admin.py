@@ -1,6 +1,15 @@
 from django.contrib import admin
 from rest_framework_api_key.admin import APIKeyModelAdmin
-from .models import Dashboard,Button,Card,DataRecord,Graph,Machine,MachineAccessAPIKey
+from .models import (
+    Dashboard,
+    Button,
+    Card,
+    DataRecord,
+    Graph,
+    Machine,
+    MachineAccessAPIKey,
+)
+
 # Register your models here.
 @admin.register(MachineAccessAPIKey)
 class ClientAPIKeyModelAdmin(APIKeyModelAdmin):

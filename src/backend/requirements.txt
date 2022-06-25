@@ -1,9 +1,9 @@
 django
 djangorestframework
 channels
-channels-redis
+channels - redis
 psycopg2
 redis
 pyyaml
-django-cors-headers
-djangorestframework-api-key
+django - cors - headers
+djangorestframework - api - key

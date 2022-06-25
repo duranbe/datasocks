@@ -14,16 +14,38 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Dashboard',
+            name="Dashboard",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('dshbd_name', models.CharField(max_length=30, verbose_name='Dashboard Name')),
-                ('dshbd_description', models.CharField(max_length=100, verbose_name='Dashboard Description')),
-                ('dshbd_users', models.ManyToManyField(to=settings.AUTH_USER_MODEL, verbose_name='Dashboard Allowed Users')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "dshbd_name",
+                    models.CharField(max_length=30, verbose_name="Dashboard Name"),
+                ),
+                (
+                    "dshbd_description",
+                    models.CharField(
+                        max_length=100, verbose_name="Dashboard Description"
+                    ),
+                ),
+                (
+                    "dshbd_users",
+                    models.ManyToManyField(
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Dashboard Allowed Users",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Dashboard',
-                'ordering': ['dshbd_name'],
+                "verbose_name": "Dashboard",
+                "ordering": ["dshbd_name"],
             },
         ),
     ]
