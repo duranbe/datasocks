@@ -171,12 +171,3 @@ class MachineViewSet(viewsets.ViewSet):
         
         api_key, key = MachineAccessAPIKey.objects.create_key(name=f"{serializer.data['machine_name']}_api_key",machine=machine)
         return Response(key,status=status.HTTP_201_CREATED)
-
-    def list(self, request):
-        serializer = MachineSerializer(self.queryset, many=True)
-        return Response(serializer.data)
-    
-    def retrieve(self, request, pk=None):
-        #TODO : FIX Retrieve
-        serializer = MachineSerializer(self.queryset)
-        return Response(serializer.data)

@@ -65,7 +65,7 @@ class Card(models.Model):
 
 class Machine(models.Model):
 	machine_name = models.CharField(max_length=128,blank=False,null=False,unique=True)
-	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="dashboard")
+	linked_dshbd = models.ForeignKey(Dashboard,on_delete=models.CASCADE,related_name="machine")
 	
 
 	def __str__(self):
