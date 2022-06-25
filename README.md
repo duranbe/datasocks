@@ -11,11 +11,47 @@ An account, an API Key and you are good to go !
 
 Datasocks use Websockets Protocol to communicate in an asynchronous way with your IoT devices.
 
+It's for now designed as a self-hosted and private application.
+
 
 ## How it works
 
 ![Schema](https://github.com/duranbe/datasocks/blob/main/img/schema.png?raw=true)
 
+IoT devices are sending data in json format to the Datasocks server, where it can be saved and then redirect to the front-end giving a real-time update on the user web browser.
+
+The user can control the object remotely by creating buttons that will send a special action to the pre-configured device.
+## Setup
+
+### Server 
+Using Docker
+
+```
+git clone https://github.com/duranbe/datasocks.git
+docker-compose build
+docker-compose up
+```
+
+### Client
+Here is an example of sending data from a device (Python)
+
+```python
+import websocket # https://github.com/websocket-client/websocket-client
+import json
+from random import randint,random
+from datetime import datetime
+
+ws = websocket.create_connection(f"ws://<URL>/ws/dashboard/13/?api_key="",) 
+
+ws.send(json.dumps(
+		{ 	
+			"metric_name": "Temp",
+			"value": random()*5.65,
+			"date": datetime.now().strftime("%d/%m/%Y T %H:%M:%S"),
+		}
+))
+ws.close()
+```
 ## Why not a simple POST/GET system ? 
 - Need to setup a web server on the device itself and open the router to the Internet
 - No efficient if there is no event (Polling needed)
