@@ -35,19 +35,11 @@ class GraphSerializer(serializers.ModelSerializer):
         ]
 
 
-class MachineAccessAPIKeySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MachineAccessAPIKey
-        fields = ["prefix"]
-
 
 class MachineSerializer(serializers.ModelSerializer):
-
-    api_key = MachineAccessAPIKeySerializer(many=False, read_only=True)
-
     class Meta:
         model = Machine
-        fields = ["machine_name", "linked_dshbd", "api_key"]
+        fields = ["machine_name", "linked_dshbd"]
 
 
 class DashboardSerializer(serializers.ModelSerializer):
