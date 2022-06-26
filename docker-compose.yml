@@ -26,6 +26,7 @@ services:
     restart: always
     build: ./src/backend/.
     command: bash -c "python ./manage.py migrate &&
+      python ./manage.py createsuperuser --noinput &&
       python ./manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
@@ -36,6 +37,10 @@ services:
       - "POSTGRES_DB=${DB_NAME}"
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+      - "DEBUG=${DEBUG}"
+      - "DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}"
+      - "DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}"
+      - "DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}"
     depends_on:
       - docker_db
     links:
