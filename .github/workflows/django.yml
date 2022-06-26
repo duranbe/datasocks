@@ -28,6 +28,7 @@ jobs:
     - name: Run Tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        HOST: ${{secrets.HOST}}
       run: |
         cd src/backend
         python manage.py test --failfast
