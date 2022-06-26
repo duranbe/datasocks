@@ -12,8 +12,9 @@ An account, an API Key and you are good to go !
 
 Datasocks use Websockets Protocol to communicate in an asynchronous way with your IoT devices.
 
-It's for now designed as a self-hosted and private application.
+It's for now designed as a self-hosted and private application (or a PoC ? ).
 
+This project was made during and for the [Linode](https://www.linode.com) x [Hashnode](https://hashnode.com/n/linodehackathon) Hackathon 
 
 ## How it works
 
