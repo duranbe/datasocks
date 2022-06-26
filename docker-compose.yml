@@ -10,18 +10,6 @@ services:
     volumes: 
       - ./data/cache:/data
 
-  docker_db:
-    image: postgres:12-alpine
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
-    environment:
-      - "POSTGRES_DB=${DB_NAME}"
-      - "POSTGRES_USER=${DB_USER}"
-      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
-
-    ports:
-      - 5432:5432
-
   django:
     restart: always
     build: ./src/backend/.
@@ -34,18 +22,11 @@ services:
       - ./src/backend:/backend/
     environment:
       - "SECRET_KEY=${SECRET_KEY}" 
-      - "POSTGRES_DB=${DB_NAME}"
-      - "POSTGRES_USER=${DB_USER}"
-      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
       - "DEBUG=${DEBUG}"
       - "DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}"
       - "DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}"
       - "DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}"
       - "HOST=${HOST}"
-    depends_on:
-      - docker_db
-    links:
-      - docker_db:docker_db
 
   nginx:
     image: nginx
