@@ -35,7 +35,6 @@ class GraphSerializer(serializers.ModelSerializer):
         ]
 
 
-
 class MachineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Machine

@@ -6,14 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('datasocks', '0015_auto_20220625_2137'),
+        ("datasocks", "0015_auto_20220625_2137"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='machineaccessapikey',
-            name='prefix',
-            field=models.CharField(default=3, editable=False, max_length=8, unique=True),
+            model_name="machineaccessapikey",
+            name="prefix",
+            field=models.CharField(
+                default=3, editable=False, max_length=8, unique=True
+            ),
             preserve_default=False,
         ),
     ]
