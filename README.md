@@ -41,7 +41,7 @@ import json
 from random import randint,random
 from datetime import datetime
 
-ws = websocket.create_connection(f"ws://<URL>/ws/dashboard/13/?api_key="",) 
+ws = websocket.create_connection(f"ws://<URL>/ws/dashboard/<DASHBOARD_ID>/?api_key=<APIKEY>) 
 
 ws.send(json.dumps(
 		{ 	
