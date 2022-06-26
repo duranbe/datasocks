@@ -29,7 +29,7 @@ Using Docker
 ```
 git clone https://github.com/duranbe/datasocks.git
 docker-compose build
-docker-compose up
+docker-compose --env-file ./.env up
 ```
 
 ### Client
