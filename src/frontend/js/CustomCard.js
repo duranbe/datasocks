@@ -7,7 +7,7 @@ function CreateCard(data){
     let CardId = data['id']
     var newCard = document.createElement("div");
 
-    newCard.className = 'class="col-xl-2 col-md-2 mb-4';
+    newCard.className = 'class="col-xl-2 col-md-2 mb-4 col-sm-8 col-8';
     newCard.innerHTML = `
               <div class="card border-left-primary shadow h-100 ">
                 <div class="card-body">
@@ -29,7 +29,7 @@ function CreateCard(data){
                                     <div class="dropdown no-arrow">
                                       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <div style="font-size: 1rem;">
-                                        <i class="fas fa-ellipsis-v fa-xs fa-fw text-gray-400 "></i>
+                                        ☰
                                         </div>
                                       </a>
                                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">

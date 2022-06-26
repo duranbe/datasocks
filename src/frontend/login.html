@@ -94,7 +94,7 @@
   
 </body>
 <script type="text/javascript">
-	const auth_token = getCookie('auth_token');
+  const auth_token = getCookie('auth_token');
 	if(auth_token != null && auth_token !== 'undefined' ){window.location.href = 'HTTP://'+window.location.host +'/dashboard'}
 
 
@@ -102,15 +102,18 @@
 
 		var LoginForm = document.getElementById('LoginForm');
 		formData = new FormData(LoginForm);
-		const csrftoken = getCookie('csrftoken');
 		const xhr = new XMLHttpRequest();
 
 		xhr.responseType = "json";
 		xhr.open('POST','HTTP://'+window.location.host +':8000/auth/login/');
 		xhr.onload = function(){ 
 			var response = xhr.response ;
+      console.log(response)
 			document.cookie = `auth_token=${response['auth_token']}`
-      if(auth_token != null && auth_token !== 'undefined' ){window.location.href = 'HTTP://'+window.location.host +'/dashboard'}
+      const auth_token = getCookie('auth_token');
+      if(auth_token != null && auth_token !== 'undefined' ){
+        window.location.href = 'HTTP://'+window.location.host +'/dashboard'
+      }
 
 			//window.location.href = '../'
 	 	}
